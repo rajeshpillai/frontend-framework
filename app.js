@@ -10,3 +10,8 @@ var posts = [
     content: '<p>Just RTFM already.</p><p><em>(TODO write manual)</em></p>'
   },
 ]
+
+var html = $("[data-template-name='index'").html()
+var template = Handlebars.compile(html)
+$("#content").html(template({ posts: posts}))
+
