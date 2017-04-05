@@ -18,19 +18,14 @@ Front.route('/', function () {
   $("#content").html(template({ posts: posts}))
 })
 
-Front.route('/introducing-front', function () {
+// Route Params
+Front.route('/:permalink', function (permalink) {
   var html = $("[data-template-name='post'").html()
-  var post = _.findWhere(posts, { permalink: 'introducing-front'})
+  var post = _.findWhere(posts, { permalink: permalink})
   var template = Handlebars.compile(html)
   $("#content").html(template(post))
 })
 
-Front.route('/how-to-use-front', function () {
-  var html = $("[data-template-name='post'").html()
-  var post = _.findWhere(posts, { permalink: 'how-to-use-front'})
-  var template = Handlebars.compile(html)
-  $("#content").html(template(post))
-})
 
 
 

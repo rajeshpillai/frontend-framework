@@ -18,8 +18,13 @@ Front.start = function () {
 
 Front.routes = [];
 Front.route = function(path, callback) {
+  // matches from start to finish url except ^ or ?
+  
+  path = path.replace(/:\w+/g, '([^/?]+)') // :permalink => ([^/?]+)
+  
+  var regexp = new RegExp("^" + path + "$")
   Front.routes.push({
-    path: path,
+    regexp: regexp,
     callback: callback
   })
 }
@@ -31,8 +36,11 @@ Front.load = function () {
   // match the route
   for(var i = 0; i < Front.routes.length; i++){
     var route = Front.routes[i]
-    if (url === route.path) {
-      route.callback()
+    var matches = url.match(route.regexp)
+    
+    if (matches) {
+      // apply: covert array to list of arguments
+      route.callback.apply(null, matches.slice(1))  // ["permalink"]
       return
     }
   }
