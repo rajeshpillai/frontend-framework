@@ -11,27 +11,20 @@ var posts = [
   },
 ]
 
-// Define the routes
-Front.route('/', function () {
-  var html = $("[data-template-name='index'").html()
-  var template = Handlebars.compile(html)
-  $("#content").html(template({ posts: posts}))
+// Refactor
+new Front.Router({
+  '/': function () {
+    this.render('index', {posts: posts})
+  },
+
+  '/:permalink': function (permalink) {
+    var post = _.findWhere(posts, { permalink: permalink})
+    this.render('post', post)
+  }
+
 })
-
-// Route Params
-Front.route('/:permalink', function (permalink) {
-  var html = $("[data-template-name='post'").html()
-  var post = _.findWhere(posts, { permalink: permalink})
-  var template = Handlebars.compile(html)
-  $("#content").html(template(post))
-})
-
-
-
-
 
 $(document).on("click", "a", function () {
-  
   Front.navigate(this.href)
   return false  // prevent default event
 })
