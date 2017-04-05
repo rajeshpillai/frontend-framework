@@ -1,17 +1,29 @@
 Front = {}
 
+Front.usePushState = !!(window.history && window.history.pushState)
+
 Front.navigate = function (path) {
-  window.history.pushState({}, "ignore", path)
-  
+  if (Front.usePushState) {
+    window.history.pushState({}, "ignore", path)
+  }
+  else {
+    // IF THE URL is absolute make it relative
+    path = path.replace(/(\/\/|[^\/])*/, "")
+    window.location.hash = "#" + path
+  }
   // TODO: load the page
   Front.load()
 }
 
 
 Front.start = function () {
-  $(window).on("popstate",Front.load)
+  if (Front.usePushState) {
+    $(window).on("popstate",Front.load)
+  } else {
+    $(window).on("hashchange", Front.load)
+  }
   
-  // Load the page
+  // Load the page 1st time
   Front.load()
 }
 
@@ -30,8 +42,11 @@ Front.route = function(path, callback) {
 }
 
 Front.load = function () {
-  var url = location.pathname
-  console.log(url)
+  if (Front.usePushState) {
+    var url = location.pathname
+  } else {
+    var url = location.hash.slice(1) || "/"
+  }
   
   // match the route
   for(var i = 0; i < Front.routes.length; i++){
