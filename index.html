@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Front - The frontend framework</title>
+
+  <link href="vendor/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+
+        <!-- The element in which templates will be rendered -->
+        <main id="content"></main>
+
+      </div>
+    </div>
+  </div><!-- /.container -->
+
+  <!-- The Handlerbars templates -->
+  <script type="text/x-handlebars-template" data-template-name="index">
+    <div class="page-header">
+      <h1>Welcome to my blog!</h1>
+    </div>
+
+    {{#each posts}}
+      <h3><a href="/{{ permalink }}">{{ title }}</a></h3>
+    {{/each}}
+  </script>
+  <script type="text/x-handlebars-template" data-template-name="post">
+    <div class="page-header">
+      <h1>{{ title }}</h1>
+    </div>
+
+    {{{ content }}}
+  </script>
+
+  <script src="vendor/jquery.js"></script>
+  <script src="vendor/underscore.js"></script>
+  <script src="vendor/handlebars.js"></script>
+  <script src="front.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
