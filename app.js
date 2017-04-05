@@ -11,9 +11,29 @@ var posts = [
   },
 ]
 
-var html = $("[data-template-name='index'").html()
-var template = Handlebars.compile(html)
-$("#content").html(template({ posts: posts}))
+// Define the routes
+Front.route('/', function () {
+  var html = $("[data-template-name='index'").html()
+  var template = Handlebars.compile(html)
+  $("#content").html(template({ posts: posts}))
+})
+
+Front.route('/introducing-front', function () {
+  var html = $("[data-template-name='post'").html()
+  var post = _.findWhere(posts, { permalink: 'introducing-front'})
+  var template = Handlebars.compile(html)
+  $("#content").html(template(post))
+})
+
+Front.route('/how-to-use-front', function () {
+  var html = $("[data-template-name='post'").html()
+  var post = _.findWhere(posts, { permalink: 'how-to-use-front'})
+  var template = Handlebars.compile(html)
+  $("#content").html(template(post))
+})
+
+
+
 
 $(document).on("click", "a", function () {
   
@@ -21,4 +41,4 @@ $(document).on("click", "a", function () {
   return false  // prevent default event
 })
 
-Front.start()
+Front.start()  // start the framework
