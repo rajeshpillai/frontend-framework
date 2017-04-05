@@ -15,3 +15,10 @@ var html = $("[data-template-name='index'").html()
 var template = Handlebars.compile(html)
 $("#content").html(template({ posts: posts}))
 
+$(document).on("click", "a", function () {
+  
+  Front.navigate(this.href)
+  return false  // prevent default event
+})
+
+Front.start()
